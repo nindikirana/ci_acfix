@@ -22,6 +22,7 @@ public function __construct()
 		$response->message = "Lengkapi email dan password"; 
 		die(json_encode($response));
 		}
+
 		$cek = $this->Login_model->Getuser(array('Email' => $email, 'Password' => $password));
 		$hasil = $cek->result_array();
 		
@@ -31,10 +32,9 @@ public function __construct()
 				$response->message = "Selamat datang ".$hasil[0]['Username'];
 				$response->id = $hasil[0]['Id_User'];
 					$response->Username = $hasil[0]['Username'];
-				$response->Email = $hasil[0]['Email'];
+					$response->Email = $hasil[0]['Email'];
 					$response->Password = $hasil[0]['Password'];
-						$response->No_Telp = $hasil[0]['No_Telp'];
-							$response->Id_Level = $hasil[0]['Id_Level'];
+					$response->Id_Level = $hasil[0]['Id_Level'];
 				die(json_encode($response));
 			
 		}

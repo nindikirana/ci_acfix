@@ -41,7 +41,6 @@ class user_model extends CI_MODEL
    public function updateUser($user, $id_user)
     {
        return $this->db->update('user', $user , ['Id_User' => $id_user]);
-       // return// $this->db//->affected_rows();
     }
  
 

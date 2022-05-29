@@ -150,10 +150,10 @@ class Level_user extends REST_Controller
 
     public function index_put()
     {
-        $id = $this->post('Id_Level');
+        $id = $this->put('Id_Level');
         $level = [
           
-            'Level' => $this->post('Level')
+            'Level' => $this->put('Level')
            
         ];
     

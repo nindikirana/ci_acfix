@@ -112,7 +112,6 @@ class user extends REST_Controller
             'Username' => $this->post('Username'),
             'Email' => $this->post('Email'),
             'Password' => md5($this->input->post('Password')),
-            'No_Telp' => $this->post('No_Telp'),
             'Id_Level' => $this->post('Id_Level')
            
         ];
@@ -121,7 +120,7 @@ class user extends REST_Controller
         if ($this->user_model->createUser($user) > 0) {
             $this->response([
                 'status' =>true,
-                'message' => 'new user created.'
+                'message' => 'Registrasi Anda Berhasil.'
             ], REST_Controller::HTTP_CREATED);
         } else {
             $this->response([
@@ -136,7 +135,6 @@ class user extends REST_Controller
                 'Username' => $this->post('Username'),
                 'Email' => $this->post('Email'),
                 'Password' => md5($this->input->post('Password')),
-                'No_Telp' => $this->post('No_Telp'),
                 'Id_Level' => $this->post('Id_Level')
             ];
           
@@ -156,14 +154,13 @@ class user extends REST_Controller
 
     public function index_put()
     {
-        $id = $this->post('Id_User');
+        $id = $this->put('Id_User');
         $user = [
-            'Id_user' => $this->post('Id_User'),
-            'Username' => $this->post('Username'),
-            'Email' => $this->post('Email'),
-            'Password' => $this->post('Password'),
-            'No_Telp' => $this->post('No_Telp'),
-            'Id_Level' => $this->post('Id_Level')
+            'Id_user' => $this->put('Id_User'),
+            'Username' => $this->put('Username'),
+            'Email' => $this->put('Email'),
+            'Password' => $this->put('Password'),
+            'Id_Level' => $this->put('Id_Level')
            
         ];
     
