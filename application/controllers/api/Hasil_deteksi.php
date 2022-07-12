@@ -6,37 +6,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class Detail_transaksi extends REST_Controller
+class Hasil_deteksi extends REST_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('detailtransaksi_model');
-
-    
-
+        $this->load->model('hasil_deteksi_model');
     }
     public function index_get()
     {
-       $id = $this->get('Id_Detail_Transaksi');
-       $delete = $this->get('Delete');
-       if($delete === true || $delete === 'true') {
-            $this->deleteData($id);
-            return;
-       }
+       $id = $this->get('Id_User');
+       
        if ($id === null) {
 
-        $detailtransaksi = $this->detailtransaksi_model->getDetail_transaksi();
+        $deteksi = $this->hasil_deteksi_model->getDeteksi();
 
        } else {
-        $detailtransaksi = $this->detailtransaksi_model->getDetail_transaksi($id);
+        $deteksi = $this->hasil_deteksi_model->getDeteksi($id);
         
        }
     
-        if ($detailtransaksi) {
+        if ($deteksi) {
             $this->response([
                 'status' => true,
-                'data' => $detailtransaksi
+                'data' => $deteksi
             ], REST_Controller::HTTP_OK);
         } else {
             $this->response([
@@ -46,7 +39,6 @@ class Detail_transaksi extends REST_Controller
         }
 
     }
-    
     private function deleteData($id) {
           if ($id === null) {
                 $this->response([
@@ -55,7 +47,7 @@ class Detail_transaksi extends REST_Controller
                 ], REST_Controller::HTTP_BAD_REQUEST);
             } else {
                
-                if ($this->detailtransaksi_model->deleteDetail_transaksi($id) > 0 ) {
+                if ($this->hasil_deteksi_model->deleteDeteksi($id) > 0 ) {
     
                     $this->set_response([
                         'status' => true,
@@ -76,7 +68,7 @@ class Detail_transaksi extends REST_Controller
 
     public function index_delete()
     {
-        $id = $this->delete('Id_Detail_Transaksi');
+        $id = $this->delete('Id_Deteksi');
 
         if ($id === null) {
             $this->response([
@@ -85,9 +77,9 @@ class Detail_transaksi extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         } else {
            
-            if ($this->detailtransaksi_model->deleteDetail_transaksi($id) > 0 ) {
+            if ($this->hasil_deteksi_model->deleteDeteksi($id) > 0 ) {
 
-                $this->set_response([
+                $this->response([
                     'status' => true,
                     'id' => $id,
                     'message' => 'deleted.'
@@ -97,7 +89,7 @@ class Detail_transaksi extends REST_Controller
 
                 $this->response([
                     'status' => false,
-                    'message' => 'not found!'
+                    'message' => 'id not found!'
                 ], REST_Controller::HTTP_BAD_REQUEST);
     
             }
@@ -107,27 +99,24 @@ class Detail_transaksi extends REST_Controller
 
     public function index_post()
     {
-         $id = $this->post('Id_Detail_Transaksi');
+        $id = $this->post('Id_Deteksi');
         
         if ($id === null) {
-        $detailtransaksi = [
+        $deteksi = [
             
-            'Id_Detail_Transaksi' => "G".substr(uniqid(), 9),
-            'Id_Transaksi' => $this->post('Id_Transaksi'),
-            'Id_Kendaraan' => $this->post('Id_Kendaraan'),
-            'Tgl_Sewa' => $this->post('Tgl_Sewa'),
-            'Tgl_Akhir_Penyewaan' => $this->post('Tgl_Akhir_Penyewaan'),
-            'Tgl_Pengembalian' => $this->post('Tgl_Pengembalian'),
-            'Harga' => $this->post('Harga'),
-            'Total' => $this->post('Total'),
-            'Status_Kendaraan' => $this->post('Status_Kendaraan'),
-            'Status' => $this->post('Status')
+            'Id_Deteksi' => "D".substr(uniqid(), 9),
+            'Id_User' => $this->post('Id_User'),
+            'Id_Kerusakan' => $this->post('Id_Kerusakan'),
+            //'Id_Gejala' => $this->post('Id_Gejala'),
+            'Nama_Gejala' => $this->post('Nama_Gejala')
+           
         ];
+        
 
-        if ($this->detailtransaksi_model->createDetail_transaksi($detailtransaksi) > 0) {
+        if ($this->hasil_deteksi_model->createDeteksi($deteksi) > 0) {
             $this->response([
                 'status' =>true,
-                'message' => 'new detail transaksi created.'
+                'message' => 'Deteksi Berhasil ditambahkan.'
             ], REST_Controller::HTTP_CREATED);
         } else {
             $this->response([
@@ -137,23 +126,18 @@ class Detail_transaksi extends REST_Controller
         }
 
     }else {
-            $detailtransaksi= [
-           
-            'Id_Transaksi' => $this->post('Id_Transaksi'),
-            'Id_Kendaraan' => $this->post('Id_Kendaraan'),
-            'Tgl_Sewa' => $this->post('Tgl_Sewa'),
-            'Tgl_Akhir_Penyewaan' => $this->post('Tgl_Akhir_Penyewaan'),
-            'Tgl_Pengembalian' => $this->post('Tgl_Pengembalian'),
-            'Harga' => $this->post('Harga'),
-            'Total' => $this->post('Total'),
-            'Status_Kendaraan' => $this->post('Status_Kendaraan'),
-            'Status' => $this->post('Status')
-        ];
+            $deteksi = [
+            
+                'Id_User' => $this->post('Id_User'),
+                'Id_Kerusakan' => $this->post('Id_Kerusakan'),
+               // 'Id_Gejala' => $this->post('Id_Gejala'),
+                'Nama_Gejala' => $this->post('Nama_Gejala')
+            ];
           
-            if ($this->detailtransaksi_model->updateDetail_transaksi($detailtransaksi, $id) > 0) {
+            if ($this->hasil_deteksi_model->updateDeteksi($deteksi, $id) > 0) {
                 $this->response([
                     'status' =>true,
-                    'message' => 'Detail Transaksi updated.'
+                    'message' => 'deteksi updated.'
                 ], REST_Controller::HTTP_OK);
             } else {
                 $this->response([
@@ -166,26 +150,19 @@ class Detail_transaksi extends REST_Controller
 
     public function index_put()
     {
-        $id = $this->post('Id_Detail_Transaksi');
-        $detailtransaksi= [
-            
-        
-            'Id_Transaksi' => $this->post('Id_Transaksi'),
-            'Id_Kendaraan' => $this->post('Id_Kendaraan'),
-            'Tgl_Sewa' => $this->post('Tgl_Sewa'),
-            'Tgl_Akhir_Penyewaan' => $this->post('Tgl_Akhir_Penyewaan'),
-            'Tgl_Pengembalian' => $this->post('Tgl_Pengembalian'),
-            'Harga' => $this->post('Harga'),
-            'Total' => $this->post('Total'),
-            'Status_Kendaraan' => $this->post('Status_Kendaraan'),
-            'Status' => $this->post('Status')
-            
-         ];
+        $id = $this->put('Id_Deteksi');
+        $deteksi = [
+            'Id_User' => $this->put('Id_User'),
+            'Id_Kerusakan' => $this->put('Id_Kerusakan'),
+            //'Id_Gejala' => $this->put('Id_Gejala'),
+            'Nama_Gejala' => $this->put('Nama_Gejala')
+           
+        ];
     
-        if ($this->detailtransaksi_model->updateDetail_transaksi($detailtransaksi, $id) > 0) {
+        if ($this->hasil_deteksi_model->updateDeteksi($deteksi, $id) > 0) {
             $this->response([
                 'status' =>true,
-                'message' => 'detail transaksi updated.'
+                'message' => 'deteksi updated.'
             ], REST_Controller::HTTP_OK);
         } else {
             $this->response([

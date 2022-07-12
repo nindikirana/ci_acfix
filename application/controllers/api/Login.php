@@ -30,7 +30,7 @@ public function __construct()
 		 
 				$response->success = 1;
 				$response->message = "Selamat datang ".$hasil[0]['Username'];
-				$response->id = $hasil[0]['Id_User'];
+				$response->Id_User = $hasil[0]['Id_User'];
 					$response->Username = $hasil[0]['Username'];
 					$response->Email = $hasil[0]['Email'];
 					$response->Password = $hasil[0]['Password'];

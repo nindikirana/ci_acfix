@@ -15,10 +15,11 @@ class Pengetahuan extends REST_Controller
     }
     public function index_get()
     {
-       $id_Gejala = $this->get('Id_Gejala');
-       $id_Kerusakan = $this->get('Id_Kerusakan');
       
-        $pengetahuan = $this->pengetahuan_model->getPengetahuan($id_Gejala, $id_Kerusakan);
+       $id_Kerusakan = $this->get('Id_Kerusakan');
+       $id_Gejala = $this->get('Id_Gejala');
+      
+        $pengetahuan = $this->pengetahuan_model->getPengetahuan($id_Gejala,$id_Kerusakan);
     
     
         if ($pengetahuan) {
@@ -70,9 +71,9 @@ class Pengetahuan extends REST_Controller
         
         if ($id === null) {
             $pengetahuan= [
-                'Id_Pengethuan' => $this->post('Id_Pengetahuan'),
-                'Id_Kerusakan' => "K".substr(uniqid(), 9),
-                'Id_Gejala' => "G".substr(uniqid(), 9)               
+                'Id_Pengetahuan' => $this->post('Id_Pengetahuan'),
+                'Id_Kerusakan' => $this->post('Id_Kerusakan'),
+                'Id_Gejala' => $this->post('Id_Gejala')         
             ];
     
             if ($this->pengetahuan_model->createPengetahuan($pengetahuan) > 0) {
@@ -89,7 +90,7 @@ class Pengetahuan extends REST_Controller
         } else {
             $pengetahuan= [
                 'Id_Kerusakan' => "K".substr(uniqid(), 9),
-                'Id_Gejala' => "G".substr(uniqid(), 9)   
+                'Id_Gejala' => "G".substr(uniqid(), 9)
              ];
           
             if ($this->pengetahuan_model->updatePengetahuan($pengetahuan, $id) > 0) {
@@ -111,8 +112,8 @@ class Pengetahuan extends REST_Controller
         $id = $this->put('Id_Pengetahuan');
         $pengetahuan= [
             
-              'Id_Kerusakan' => "K".substr(uniqid(), 9),
-              'Id_Gejala' => "G".substr(uniqid(), 9)   
+              'Id_Kerusakan' => $this->put('Id_Kerusakan'),
+              'Id_Gejala' => $this->put('Id_Gejala')
          ];
             
         if ($this->pengetahuan_model->updatePengetahuan($pengetahuan, $id) > 0) {

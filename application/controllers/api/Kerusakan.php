@@ -17,6 +17,7 @@ class Kerusakan extends REST_Controller
     {
        $id = $this->get('Id_Kerusakan');
        $nama = $this->get('Nama_Kerusakan');
+       $solusi = $this->get('Solusi');
      
         $kerusakan = $this->kerusakan_model->getKerusakan($id, $nama);
     

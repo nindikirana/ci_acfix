@@ -173,5 +173,19 @@ class Deteksi extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
-
+    public function index_proses(){
+        $values = json_decode(file_get_contents('php://input'),true); 
+        $sp = $this->deteksi_model->rules($values);
+        if($sp){
+             $this->response([
+                'status' => true,
+                'data' => $sp
+            ], REST_Controller::HTTP_OK);
+        }else{
+             $this->response([
+                'status' => false,
+                'message' => $sp
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+}
 }

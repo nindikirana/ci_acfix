@@ -109,10 +109,11 @@ class user extends REST_Controller
         $user = [
             
             'Id_User' => "U".substr(uniqid(), 9),
+            'Id_Level' => $this->post('Id_Level'),
             'Username' => $this->post('Username'),
             'Email' => $this->post('Email'),
-            'Password' => md5($this->input->post('Password')),
-            'Id_Level' => $this->post('Id_Level')
+            'Password' => md5($this->input->post('Password'))
+            
            
         ];
         
@@ -132,10 +133,11 @@ class user extends REST_Controller
     }else {
             $user = [
             
+                'Id_Level' => $this->post('Id_Level'),
                 'Username' => $this->post('Username'),
                 'Email' => $this->post('Email'),
-                'Password' => md5($this->input->post('Password')),
-                'Id_Level' => $this->post('Id_Level')
+                'Password' => md5($this->input->post('Password'))
+                
             ];
           
             if ($this->user_model->updateUser($user, $id) > 0) {
@@ -157,10 +159,11 @@ class user extends REST_Controller
         $id = $this->put('Id_User');
         $user = [
             'Id_user' => $this->put('Id_User'),
+            'Id_Level' => $this->put('Id_Level'),
             'Username' => $this->put('Username'),
             'Email' => $this->put('Email'),
-            'Password' => $this->put('Password'),
-            'Id_Level' => $this->put('Id_Level')
+            'Password' => $this->put('Password')
+            
            
         ];
     
